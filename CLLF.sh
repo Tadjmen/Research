@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # coded by XuanMike
 # C - version 1.0
 # CLLF - Collect Linux Logs Forensic
@@ -369,7 +369,7 @@ GET_WEBSERVERSCRIPTS(){
 	mkdir WebServerScripts && cd WebServerScripts
 	mkdir webscriptsFile
 	touch errors.txt
-	ls /var/www/**/*.py /var/www/**/*.php /var/www/**/*.js /var/www/**/*.rb /var/www/**/*.pl /var/www/**/*.cgi /var/www/**/*.sh /var/www/**/*.go /var/www/**/*.war 2>dev\null | grep ".*" > webscripts.txt 2>>errors.txt
+	ls /var/www/**/*.py /var/www/**/*.php /var/www/**/*.js /var/www/**/*.rb /var/www/**/*.pl /var/www/**/*.cgi /var/www/**/*.sh /var/www/**/*.go /var/www/**/*.war 2>>errors.txt | grep "**" > webscripts.txt
 	xargs -a webscripts.txt -P 50 -I % bash -c "cp % webscriptsFile" 2>>errors.txt
 	echo -e "${BK}        ${RT}" | tr -d '\n' | echo -e " COLLECTED: web server scripts are successfully saved. ${BK}${RT} (${YW}OK${RT})"
 	cd ..  
@@ -435,12 +435,10 @@ RUN(){
 	GET_SUSPICIOUS
 }
 
-#while true
-#do
-#    BANNER
-#    RUN
-#    exit 0
-#done
+while true
+do
+    BANNER
+    RUN
+    exit 0
+done
 
-BANNER
-RUN
