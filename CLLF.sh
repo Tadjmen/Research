@@ -295,9 +295,9 @@ GET_LOGS(){
 	echo -e "${BK}        ${RT}" | tr -d '\n' | echo -e " Processing logs ... ${BK}${RT} (${YW}it may take time${RT})"
 	mkdir logs && cd logs
 	touch errors.txt
-	last -Faixw > "bashrc.txt" 2>>errors.txt
-	journalctl -x > "cron.txt" 2>>errors.txt
-	journalctl -k > "systemd.txt" 2>>errors.txt
+	last -Faixw > "last.txt" 2>>errors.txt
+	journalctl -x > "journalctl_x.txt" 2>>errors.txt
+	journalctl -k > "journalctl_k.txt" 2>>errors.txt
 	cat /var/log/apache*/**access* > "apache_access.txt" 2>>errors.txt
 	cat /var/log/apache*/**error* > "apache_error.txt" 2>>errors.txt
 	cat /var/log/boot** > "boot.txt" 2>>errors.txt
@@ -328,9 +328,9 @@ GET_CONFIGURATIONS(){
 	mkdir configurations && cd configurations
 	touch errors.txt
 	iptables -S > "bashrc.txt" 2>>errors.txt
-	firewall-cmd --list-all > "cron.txt" 2>>errors.txt
-	sshd -T > "systemd.txt" 2>>errors.txt
-	sysctl -a > "rc.txt" 2>>errors.txt
+	firewall-cmd --list-all > "firewall-cmd.txt" 2>>errors.txt
+	sshd -T > "sshd_T.txt" 2>>errors.txt
+	sysctl -a > "sysctl.txt" 2>>errors.txt
 	cat /etc/apache*/*.conf> "apache_conf.txt" 2>>errors.txt
 	cat /etc/apt**/*.list* > "apt_conf.txt" 2>>errors.txt
 	cat /etc/firewalld/*.conf > "firewall_conf.txt" 2>>errors.txt
