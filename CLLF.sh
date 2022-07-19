@@ -4,20 +4,26 @@
 # CLLF - Collect Linux Logs Forensic
 
 
-#@> VARIABLES
-OUTDIR=CLLF_$(date +%F_%H-%M-%S)
-mkdir $OUTDIR
-cd $OUTDIR
-touch errors.txt
-VR=" v1.0"
-
-
 #@> COLORS
 BK="\e[7m"
 RT="\e[0m"
 YW="\e[93m"
 GR="\e[32m"
 
+
+#@> Check root privileges
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
+
+#@> VARIABLES
+OUTDIR=CLLF_$(date +%F_%H-%M-%S)
+mkdir $OUTDIR
+cd $OUTDIR
+touch errors.txt
+VR=" v1.0"
 
 
 #@> EXIT FUNCTION
@@ -301,8 +307,8 @@ GET_LOGS(){
 	cat /var/log/apache*/**access* > "apache_access.txt" 2>>errors.txt
 	cat /var/log/apache*/**error* > "apache_error.txt" 2>>errors.txt
 	cat /var/log/boot** > "boot.txt" 2>>errors.txt
-	cat /var/log/btmp** > "btmp.txt" 2>>errors.txt
-	cat /var/log/wtmp** > "wtmp.txt" 2>>errors.txt
+	utmpdump /var/log/btmp** > "btmp.txt" 2>>errors.txt
+	utmpdump /var/log/wtmp** > "wtmp.txt" 2>>errors.txt
 	cat /var/log/httpd/**access* > "httpd_access.txt" 2>>errors.txt
 	cat /var/log/httpd/**error* > "httpd_error.txt" 2>>errors.txt
 	cat /var/log/kern** > "kern.txt" 2>>errors.txt
@@ -441,4 +447,3 @@ do
     RUN
     exit 0
 done
-
